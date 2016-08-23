@@ -3,58 +3,22 @@ package com.github.rehei.scala.utils.collections
 import scala.collection.JavaConversions._
 import scala.collection.JavaConverters._
 import scala.reflect.ClassTag
-import scala.reflect.{ ClassTag, classTag }
 
-class BidiFilteredCollection[T](
-    protected val baseInternal: java.util.Collection[T],
-    protected val filterFunc: (T) => Boolean,
-    protected val modifyOnAddFuncUnit: (T) => Unit,
-    protected val checkOnAddFunc: (T) => Boolean)(implicit val classTag: ClassTag[T]) extends java.util.Collection[T] {
-
-  def this(baseInternal: java.util.Collection[T])(implicit classTag: ClassTag[T]) = {
-    this(baseInternal,
-      (_ => true),
-      (_ => Unit),
-      (_ => true))
-  }
-
-  protected val modifyOnAddFuncIdentity = (model: T) => {
-    modifyOnAddFuncUnit(model)
-    model
-  }
-
-  def where(filter: (T) => Boolean) = {
-    new BidiFilteredCollection(baseInternal, filter, modifyOnAddFuncUnit, checkOnAddFunc)
-  }
-
-  def addingObjectWithModification(modification: (T) => Unit) = {
-    new BidiFilteredCollection(baseInternal, filterFunc, modification, checkOnAddFunc)
-  }
-
-  def addingObjectMustSatisfy(check: (T) => Boolean) = {
-    new BidiFilteredCollection(baseInternal, filterFunc, modifyOnAddFuncUnit, check)
-  }
+class FilterThroughCollection[T](
+  protected val baseInternal: java.util.Collection[T],
+  protected val filterFunc: (T) => Boolean)(implicit classTag: ClassTag[T])
+    extends AbstractCollection[T] {
 
   protected def baseCollection = {
     baseInternal.filter(filterFunc)
   }
 
   override def add(element: T) = {
-    if (checkOnAddFunc(element)) {
-      modifyOnAddFuncUnit(element)
-      baseInternal.add(element)
-    } else {
-      false
-    }
+    baseInternal.add(element)
   }
 
   override def addAll(elements: java.util.Collection[_ <: T]): Boolean = {
-    def checkedAndModifiedElementCollection = {
-      elements
-        .filter(checkOnAddFunc)
-        .map(modifyOnAddFuncIdentity)
-    }
-    baseInternal.addAll(checkedAndModifiedElementCollection)
+    baseInternal.addAll(elements)
   }
 
   override def clear(): Unit = {
