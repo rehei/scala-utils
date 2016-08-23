@@ -9,7 +9,7 @@ abstract class AbstractCollection[T](implicit val classTag: ClassTag[T]) extends
   }
 
   def matchOnInsert(filterFunc: (T) => Boolean) = {
-    new FilterThroughCollection(this, filterFunc)
+    new MatchOnInsertCollection(this, filterFunc)
   }
 
   def modifyOnInsert(modification: (T) => Unit) = {

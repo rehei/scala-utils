@@ -7,18 +7,44 @@ class MatchOnInsertCollection[T](
   protected val matchOnInsertFunc: (T) => Boolean)(implicit classTag: ClassTag[T])
     extends AbstractCollection[T] {
 
-  def add(x$1: T): Boolean = ???
-  def addAll(x$1: java.util.Collection[_ <: T]): Boolean = ???
-  def clear(): Unit = ???
-  def contains(x$1: Any): Boolean = ???
-  def containsAll(x$1: java.util.Collection[_]): Boolean = ???
-  def isEmpty(): Boolean = ???
-  def iterator(): java.util.Iterator[T] = ???
-  def remove(x$1: Any): Boolean = ???
-  def removeAll(x$1: java.util.Collection[_]): Boolean = ???
-  def retainAll(x$1: java.util.Collection[_]): Boolean = ???
-  def size(): Int = ???
-  def toArray[T](x$1: Array[T with Object]): Array[T with Object] = ???
-  def toArray(): Array[Object] = ???
+  def add(element: T): Boolean = {
+    base.add(element)
+  }
+  def addAll(elements: java.util.Collection[_ <: T]): Boolean = {
+    base.addAll(elements)
+  }
+  def clear(): Unit = {
+    base.clear()
+  }
+  def contains(element: Any): Boolean = {
+    base.contains(element)
+  }
+  def containsAll(elements: java.util.Collection[_]): Boolean = {
+    base.containsAll(elements)
+  }
+  def isEmpty(): Boolean = {
+    base.isEmpty()
+  }
+  def iterator(): java.util.Iterator[T] = {
+    base.iterator()
+  }
+  def remove(element: Any): Boolean = {
+    base.remove(element)
+  }
+  def removeAll(elements: java.util.Collection[_]): Boolean = {
+    base.removeAll(elements)
+  }
+  def retainAll(elements: java.util.Collection[_]): Boolean = {
+    base.retainAll(elements)
+  }
+  def size(): Int = {
+    base.size()
+  }
+  def toArray[T](element: Array[T with Object]): Array[T with Object] = {
+    base.toArray[T](element)
+  }
+  def toArray(): Array[Object] = {
+    base.toArray()
+  }
 
 }
