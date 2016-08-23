@@ -6,10 +6,10 @@ import scala.reflect.ClassTag
 import scala.reflect.{ ClassTag, classTag }
 
 class BidiFilteredCollection[T](
-    private val baseInternal: java.util.Collection[T],
-    private val filterFunc: (T) => Boolean,
-    private val modifyOnAddFuncUnit: (T) => Unit,
-    private val checkOnAddFunc: (T) => Boolean)(implicit val classTag: ClassTag[T]) extends java.util.Collection[T] {
+    protected val baseInternal: java.util.Collection[T],
+    protected val filterFunc: (T) => Boolean,
+    protected val modifyOnAddFuncUnit: (T) => Unit,
+    protected val checkOnAddFunc: (T) => Boolean)(implicit val classTag: ClassTag[T]) extends java.util.Collection[T] {
 
   def this(baseInternal: java.util.Collection[T])(implicit classTag: ClassTag[T]) = {
     this(baseInternal,
@@ -18,7 +18,7 @@ class BidiFilteredCollection[T](
       (_ => true))
   }
 
-  val modifyOnAddFuncIdentity = (model: T) => {
+  protected val modifyOnAddFuncIdentity = (model: T) => {
     modifyOnAddFuncUnit(model)
     model
   }
