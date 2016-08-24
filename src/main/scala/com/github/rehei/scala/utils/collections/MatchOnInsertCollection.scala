@@ -1,6 +1,8 @@
 package com.github.rehei.scala.utils.collections
 
 import scala.reflect.ClassTag
+import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 class MatchOnInsertCollection[T](
   protected val base: java.util.Collection[T],
@@ -8,10 +10,14 @@ class MatchOnInsertCollection[T](
     extends AbstractCollection[T] {
 
   def add(element: T): Boolean = {
-    base.add(element)
+    if (matchOnInsertFunc(element)) {
+      base.add(element)
+    } else {
+      false
+    }
   }
   def addAll(elements: java.util.Collection[_ <: T]): Boolean = {
-    base.addAll(elements)
+    elements.foldLeft(false)((foldValue, element) => foldValue && base.add(element))
   }
   def clear(): Unit = {
     base.clear()
