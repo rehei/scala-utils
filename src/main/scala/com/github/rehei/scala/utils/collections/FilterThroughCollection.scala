@@ -6,12 +6,8 @@ import scala.reflect.ClassTag
 
 class FilterThroughCollection[T](
   protected val baseInternal: java.util.Collection[T],
-  protected val filterFunc: (T) => Boolean)(implicit classTag: ClassTag[T])
+  protected val mapFunc: (T) => Boolean)(implicit classTag: ClassTag[T])
     extends AbstractCollection[T] {
-
-  protected def baseCollection = {
-    baseInternal.filter(filterFunc)
-  }
 
   override def add(element: T) = {
     baseInternal.add(element)
@@ -69,6 +65,10 @@ class FilterThroughCollection[T](
   }
   override def toArray(): Array[Object] = {
     baseCollection.asJavaCollection.toArray(new Array[Object](0))
+  }
+
+  protected def baseCollection = {
+    baseInternal.filter(mapFunc)
   }
 
 }

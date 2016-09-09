@@ -48,5 +48,4 @@ class FilterThroughCollectionTest extends org.specs2.mutable.Specification with 
     }
   }
 
-
 }

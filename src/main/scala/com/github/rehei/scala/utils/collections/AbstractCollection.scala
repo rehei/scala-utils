@@ -16,4 +16,8 @@ abstract class AbstractCollection[T](implicit val classTag: ClassTag[T]) extends
     new ModifyOnInsertCollection(this, modification)
   }
 
+  def mapThrough[A](mapFunc: (T) => (A))(implicit classTag: ClassTag[A]) = {
+    new MapThroughCollection(this, mapFunc, None)
+  }
+
 }
