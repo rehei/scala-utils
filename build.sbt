@@ -10,6 +10,8 @@ resolvers += "staging" at "https://oss.sonatype.org/content/repositories/staging
 resolvers += "releases" at "https://oss.sonatype.org/content/repositories/releases"
 resolvers += Resolver.bintrayRepo("rehei", "maven")
 
+licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
+
 libraryDependencies ++= {
   val liftVersion = "2.6.2"
   Seq(

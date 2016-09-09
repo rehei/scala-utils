@@ -1,0 +1,28 @@
+language: scala
+env:
+  global:
+  - SCALA_PRIMARY_VERSION=2.11
+  - SCALA_SECONDARY_VERSION=6
+  - SCALA_VERSION=${SCALA_PRIMARY_VERSION}.${SCALA_SECONDARY_VERSION}
+  - BINTRAY_REALM=Bintray API Realm
+  - BINTRAY_HOST=api.bintray.com
+  - BINTRAY_USER=rehei
+  - secure: M11AyteamMTrECmrI/sad32s69LluRoKAcKsqAi4M7Ga4fOQVUHjEjvUDch+yVjLkMqmZUi1D0xRbdr1ZXXwIKG98T3JT4lH1CUwVuk7BpvvujzwkxCUYxPJnUxy/5GH44LyS9zCzTMumVMYPrSF7HPdqEYh5LhPI2e01GLBRHa0E1BEdTYvl4Hm0azSZh8V2iDHiuH4YIHwuQZ8QWHynVU+nGMDsKI7ITlKhcqiGznYxeVetltyq4UP848RrpQs6g+2roRpTvmemGWSMD51Iu5sho6z+fEd1sTtnfYuIEijTsmOXuhBR8r4MYqkQe+DiSyszvBPOkDjIDuQOi/w8cJIOAFKFAt+GbgZBd9d0eh+uowtbTD0A5IaZVLu9+9eYQYXMxyvmas/QVabm6SK0nrOngnxaTJqcRw+h6e3PELXUcx5h7UT26iLppa7oSIgaKLKnzKVall44sbD42gs6dMkD2zg7kP+l0jdWm244Qsg9g0HQ2PJXYY0/Saspn04VZEIFk70yKCo+1jgZ5TJh1zesX9e66TazXjaqyHSNgmL2AthDeOCr3IJHOyc+cUdSl+Ttu0l6799nixkzM7k5xWqivtJCe+FqY6HYPFllVZvouucIj7EFXrFhTqNKBqrYIRJCeq4XBCa6l+5WkPwmT+cKH9R2H357D+XPgsvXck=
+script:
+- ./sbt -Dtag=${TRAVIS_TAG} ++$TRAVIS_SCALA_VERSION package
+scala:
+- $SCALA_VERSION
+deploy:
+- provider: releases
+  api_key:
+    secure: OgVpAPBQpwx+mwF0eGwrqlNQxhEv0fDHWtzbMN3Qvpo4ivZ/3a1lzB/MoTkS9oaTHeCc2qZxy0UdzPVcTRXbs+lv5096TnFXUGjdJxb8DYeTawVPyGT6fI/Z/rOkM3jix12+3m1tV6OWtnpEQRDeSkMBnYfnqP3olOr7SXatYoTzJT0MkSeC5VyQrt0ham1N9TEWPdgqppYXCvthlRLzhJdKaTDmQiW6YNQtQ26ajRYNzs4jOJxL/cspkuZHoD0LXYCA1LTuk+oMOx0RKJhH3xFCjWSxER7TmdjEAiJCNQaIYpJJxB3HVXHsdSwHy8+VmYqKkHqjqS2THR4RYJQZYz7fJ9cV386yRJF89jeLbU2x2tB6lvS9e5S+KYGJJK+j6jx5uxVLnWPHxCUifiXEX9BOdEdKcKktVsVocvZW6+fbaR1Q7ohUkRImukHe7zlXgLWtPplXagZdRD9N8EjY5noNCNX56e9aAmUhg2TZ3sksbKkp0u3WqmkY7Oq0Jvwn6YXgZDabaqsSEP3DxbxPh6QNuXqBcENimiCwmsgxXY5tdOk6njgi7gqbyakWnrzAMadBCh1GV84VSAgcPMoI7VnshcmwPRRWGyEXR0hs62vxmVXgFlPsqL2fZOWGVVckTeJOCmGAGAMFcDHW2z0cZl1+IGtQKm3Q0yU3ZCX+kyY=
+  file: target/scala-${SCALA_PRIMARY_VERSION}/scala-utils_${SCALA_PRIMARY_VERSION}-${TRAVIS_TAG}.jar
+  on:
+    tags: true
+    repo: rehei/scala-utils
+- provider: script
+  script: ./bintray.sh
+  on:
+    tags: true
+    repo: rehei/scala-utils
+
